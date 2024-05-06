@@ -1,6 +1,3 @@
-#!/bin/bash
-set -e
-
 samestr convert \
     --input-files inputs/*.sam.bz2 \ 
     --marker-dir samestr_db/ \
