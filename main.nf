@@ -7,8 +7,8 @@ process convert {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "inputs/"
-        file "samestr_db/"
+        path "inputs/"
+        path "samestr_db/"
 
     output:
         path "out_convert/*"
@@ -22,13 +22,13 @@ process merge {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "out_convert/"
-        file "samestr_db/"
+        path "out_convert/"
+        path "samestr_db/"
 
     output:
         path "out_merge/*"
 
-    """#!/bin/bash
+"""#!/bin/bash
 set -e
 
 samestr merge \
@@ -44,13 +44,13 @@ process filter {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "out_merge/"
-        file "samestr_db/"
+        path "out_merge/"
+        path "samestr_db/"
 
     output:
         path "out_filter/*"
 
-    """#!/bin/bash
+"""#!/bin/bash
 set -e
 
 samestr filter \
@@ -73,13 +73,13 @@ process stats {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "out_filter/"
-        file "samestr_db/"
+        path "out_filter/"
+        path "samestr_db/"
 
     output:
         path "out_stats/*"
 
-    """#!/bin/bash
+"""#!/bin/bash
 set -e
 
 samestr stats \
@@ -96,13 +96,13 @@ process compare {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "out_filter/"
-        file "samestr_db/"
+        path "out_filter/"
+        path "samestr_db/"
 
     output:
         path "out_compare/*"
 
-    """#!/bin/bash
+"""#!/bin/bash
 set -e
 
 samestr compare \
@@ -119,14 +119,14 @@ process summarize {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        file "out_compare/"
-        file "out_align/"
-        file "samestr_db/"
+        path "out_compare/"
+        path "out_align/"
+        path "samestr_db/"
 
     output:
         path "out_summarize/*"
 
-    """#!/bin/bash
+"""#!/bin/bash
 set -e
 
 samestr summarize \
