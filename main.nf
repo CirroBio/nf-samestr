@@ -3,7 +3,7 @@
 nextflow.enable.dsl=2
 
 // Process to convert data
-process convert {
+process samestr_convert {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -18,7 +18,7 @@ process convert {
 }
 
 // Process to merge data
-process merge {
+process samestr_merge {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -40,7 +40,7 @@ samestr merge \
 }
 
 // Process to filter data
-process filter {
+process samestr_filter {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -69,7 +69,7 @@ samestr filter \
 }
 
 // Process to calculate statistics
-process stats {
+process samestr_stats {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -92,7 +92,7 @@ samestr stats \
 }
 
 // Process to compare data
-process compare {
+process samestr_compare {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -115,7 +115,7 @@ samestr compare \
 }
 
 // Process to summarize data
-process summarize {
+process samestr_summarize {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
@@ -149,15 +149,15 @@ workflow {
     )
     db = file("${params.db}", type: 'dir')
 
-    convert(mpn_profiles, db)
+    samestr_convert(mpn_profiles, db)
 
-    merge(convert.out, db)
+    samestr_merge(samestr_convert.out, db)
 
-    filter(merge.out, db)
+    samestr_filter(samestr_merge.out, db)
 
-    stats(filter.out, db)
+    samestr_stats(samestr_filter.out, db)
 
-    compare(filter.out, db)
+    samestr_compare(samestr_filter.out, db)
 
-    summarize(compare.out, mpn_profiles, db)
+    samestr_summarize(samestr_compare.out, mpn_profiles, db)
 }
