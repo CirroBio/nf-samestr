@@ -7,8 +7,8 @@ process convert {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "inputs/"
-        path "samestr_db/"
+        file "inputs/"
+        file "samestr_db/"
 
     output:
         path "out_convert/*"
@@ -22,8 +22,8 @@ process merge {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "out_convert/"
-        path "samestr_db/"
+        file "out_convert/"
+        file "samestr_db/"
 
     output:
         path "out_merge/*"
@@ -44,8 +44,8 @@ process filter {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "out_merge/"
-        path "samestr_db/"
+        file "out_merge/"
+        file "samestr_db/"
 
     output:
         path "out_filter/*"
@@ -73,8 +73,8 @@ process stats {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "out_filter/"
-        path "samestr_db/"
+        file "out_filter/"
+        file "samestr_db/"
 
     output:
         path "out_stats/*"
@@ -96,8 +96,8 @@ process compare {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "out_filter/"
-        path "samestr_db/"
+        file "out_filter/"
+        file "samestr_db/"
 
     output:
         path "out_compare/*"
@@ -119,9 +119,9 @@ process summarize {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "out_compare/"
-        path "out_align/"
-        path "samestr_db/"
+        file "out_compare/"
+        file "out_align/"
+        file "samestr_db/"
 
     output:
         path "out_summarize/*"
