@@ -8,7 +8,7 @@ process samestr_convert {
 
     input:
         path "inputs/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_convert/*"
@@ -23,7 +23,7 @@ process samestr_merge {
 
     input:
         path "out_convert/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_merge/*"
@@ -38,7 +38,7 @@ process samestr_filter {
 
     input:
         path "out_merge/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_filter/*"
@@ -53,7 +53,7 @@ process samestr_stats {
 
     input:
         path "out_filter/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_stats/*"
@@ -68,7 +68,7 @@ process samestr_compare {
 
     input:
         path "out_filter/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_compare/*"
@@ -84,7 +84,7 @@ process samestr_summarize {
     input:
         path "out_compare/"
         path "out_align/"
-        path "samestr_db/"
+        path "samestr_db"
 
     output:
         path "out_summarize/*"
