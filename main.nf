@@ -147,7 +147,7 @@ workflow {
     mpn_profiles = Channel.fromPath(
         "${params.mpn_profiles}".split(',').toList()
     )
-    db = path("${params.db}", type: 'dir')
+    db = file("${params.db}", type: 'dir')
 
     convert(mpn_profiles, db)
 
