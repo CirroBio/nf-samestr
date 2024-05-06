@@ -2,6 +2,19 @@
 
 nextflow.enable.dsl=2
 
+// Convert the metaphlan inputs into the format expected by samestr
+process mpl_sanitize {
+
+    input:
+        path "inputs_mpl/"
+
+    output:
+        path "sanitized/*"
+
+    script:
+    template "mpl_sanitize.py"
+}
+
 // Process to convert data
 process samestr_convert {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
@@ -114,7 +127,9 @@ workflow {
 
     db = file("${params.db}", type: 'dir')
 
-    samestr_convert(inputs_sam, inputs_mpl, db)
+    mpl_sanitize(inputs_mpl)
+
+    samestr_convert(inputs_sam, mpl_sanitize.out, db)
 
     samestr_merge(samestr_convert.out, db)
 
