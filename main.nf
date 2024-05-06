@@ -13,7 +13,6 @@ process convert {
     output:
         path "out_convert/*"
 
-    script:
     """#!/bin/bash
 set -e
 
@@ -37,7 +36,6 @@ process merge {
     output:
         path "out_merge/*"
 
-    script:
     """#!/bin/bash
 set -e
 
@@ -60,7 +58,6 @@ process filter {
     output:
         path "out_filter/*"
 
-    script:
     """#!/bin/bash
 set -e
 
@@ -90,7 +87,6 @@ process stats {
     output:
         path "out_stats/*"
 
-    script:
     """#!/bin/bash
 set -e
 
@@ -114,7 +110,6 @@ process compare {
     output:
         path "out_compare/*"
 
-    script:
     """#!/bin/bash
 set -e
 
@@ -139,7 +134,6 @@ process summarize {
     output:
         path "out_summarize/*"
 
-    script:
     """#!/bin/bash
 set -e
 
