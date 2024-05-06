@@ -100,8 +100,18 @@ workflow {
     if (!params.db) {error "Must specify --${db}"}
     if (!params.output_directory) {error "Must specify --${output_directory}"}
 
-    inputs_sam = Channel.fromPath("${params.inputs_sam}".split(',').toList())
-    inputs_mpl = Channel.fromPath("${params.inputs_mpl}".split(',').toList())
+    inputs_sam = Channel
+        .fromPath(
+            "${params.inputs_sam}".split(',').toList()
+        )
+        .toSortedList()
+    
+    inputs_mpl = Channel
+        .fromPath(
+            "${params.inputs_mpl}".split(',').toList()
+        )
+        .toSortedList()
+
     db = file("${params.db}", type: 'dir')
 
     samestr_convert(inputs_sam, inputs_mpl, db)
