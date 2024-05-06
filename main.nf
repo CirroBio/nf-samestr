@@ -7,7 +7,8 @@ process samestr_convert {
     publishDir "${params.output_directory}", mode: 'copy', overwrite: true
 
     input:
-        path "inputs/"
+        path "inputs_sam/"
+        path "inputs_mpl/"
         path "samestr_db"
 
     output:
@@ -83,7 +84,7 @@ process samestr_summarize {
 
     input:
         path "out_compare/"
-        path "out_align/"
+        path "inputs_mpl/"
         path "samestr_db"
 
     output:
@@ -94,16 +95,16 @@ process samestr_summarize {
 }
 
 workflow {
-    if (!params.mpn_profiles) {error "Must specify --${mpn_profiles}"}
+    if (!params.inputs_sam) {error "Must specify --${inputs_sam}"}
+    if (!params.inputs_mpl) {error "Must specify --${inputs_mpl}"}
     if (!params.db) {error "Must specify --${db}"}
     if (!params.output_directory) {error "Must specify --${output_directory}"}
 
-    mpn_profiles = Channel.fromPath(
-        "${params.mpn_profiles}".split(',').toList()
-    )
+    inputs_sam = Channel.fromPath("${params.inputs_sam}".split(',').toList())
+    inputs_mpl = Channel.fromPath("${params.inputs_mpl}".split(',').toList())
     db = file("${params.db}", type: 'dir')
 
-    samestr_convert(mpn_profiles, db)
+    samestr_convert(inputs_sam, inputs_mpl, db)
 
     samestr_merge(samestr_convert.out, db)
 
@@ -113,5 +114,5 @@ workflow {
 
     samestr_compare(samestr_filter.out, db)
 
-    samestr_summarize(samestr_compare.out, mpn_profiles, db)
+    samestr_summarize(samestr_compare.out, inputs_mpl, db)
 }
