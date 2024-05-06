@@ -28,15 +28,8 @@ process samestr_merge {
     output:
         path "out_merge/*"
 
-"""#!/bin/bash
-set -e
-
-samestr merge \
-    --input-files out_convert/*.npz \
-    --marker-dir samestr_db/ \
-    --nprocs ${task.cpus} \
-    --output-dir out_merge/
-    """
+    script:
+    template "merge.sh"
 }
 
 // Process to filter data
@@ -50,22 +43,8 @@ process samestr_filter {
     output:
         path "out_filter/*"
 
-"""#!/bin/bash
-set -e
-
-samestr filter \
-    --input-files out_merge/*.npy \
-    --input-names inputs/*.names.txt \
-    --marker-dir samestr_db/ \
-    --clade-min-n-hcov ${params.clade_min_n_hcov} \
-    --clade-min-samples ${params.clade_min_samples} \
-    --marker-trunc-len ${params.marker_trunc_len} \
-    --global-pos-min-n-vcov ${params.global_pos_min_n_vcov} \
-    --sample-pos-min-n-vcov ${params.sample_pos_min_n_vcov} \
-    --sample-var-min-f-vcov ${params.sample_var_min_f_vcov} \
-    --nprocs ${task.cpus} \
-    --output-dir out_filter/
-    """
+    script:
+    template "filter.sh"
 }
 
 // Process to calculate statistics
@@ -79,16 +58,8 @@ process samestr_stats {
     output:
         path "out_stats/*"
 
-"""#!/bin/bash
-set -e
-
-samestr stats \
-    --input-files out_filter/*.npy \
-    --input-names out_filter/*.names.txt \
-    --marker-dir samestr_db/ \
-    --nprocs ${task.cpus} \
-    --output-dir out_stats/
-    """
+    script:
+    template "stats.sh"
 }
 
 // Process to compare data
@@ -102,16 +73,8 @@ process samestr_compare {
     output:
         path "out_compare/*"
 
-"""#!/bin/bash
-set -e
-
-samestr compare \
-    --input-files out_filter/*.npy \
-    --input-names out_filter/*.names.txt \
-    --marker-dir samestr_db/ \
-    --nprocs ${task.cpus} \
-    --output-dir out_compare/
-    """
+    script:
+    template "compare.sh"
 }
 
 // Process to summarize data
@@ -126,17 +89,8 @@ process samestr_summarize {
     output:
         path "out_summarize/*"
 
-"""#!/bin/bash
-set -e
-
-samestr summarize \
-    --input-dir out_compare/ \
-    --tax-profiles-dir out_align/ \
-    --marker-dir samestr_db/ \
-    --output-dir out_summarize/ \
-    --aln-pair-min-overlap ${params.aln_pair_min_overlap} \
-    --aln-pair-min-similarity ${params.aln_pair_min_similarity}
-    """
+    script:
+    template "summarize.sh"
 }
 
 workflow {
