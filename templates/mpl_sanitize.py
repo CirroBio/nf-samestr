@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import pandas as pd
 from pathlib import Path
 
@@ -29,17 +30,19 @@ def sanitize(input_file, output_file):
                 .to_csv(output_file, sep="\t", index=False)
             )
             return
-        
+
     raise ValueError(f"Could not find expected columns in {input_file}")
 
 
 def main():
+    Path("sanitized").mkdir(exist_ok=True)
     for file in Path("inputs_mpl").rglob("*${params.tax_profiles_extension}"):
 
         sanitize(
             file,
             Path("sanitized") / file.name
         )
+
 
 if __name__ == "__main__":
     main()
