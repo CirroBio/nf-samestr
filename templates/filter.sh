@@ -3,7 +3,7 @@ set -e
 
 samestr filter \
     --input-files out_merge/*.npy \
-    --input-names inputs/*.names.txt \
+    --input-names out_merge/*.names.txt \
     --marker-dir samestr_db/ \
     --clade-min-samples ${params.clade_min_samples} \
     --marker-trunc-len ${params.marker_trunc_len} \
