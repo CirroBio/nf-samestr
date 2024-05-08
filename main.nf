@@ -108,6 +108,29 @@ process samestr_summarize {
 }
 
 workflow {
+    log.info"""
+    ##############
+    # nf-samestr #
+    ##############
+
+    Parameters:
+    - inputs_sam:               ${params.inputs_sam}
+    - inputs_mpl:               ${params.inputs_mpl}
+    - db:                       ${params.db}
+    - output_directory:         ${params.output_directory}
+    - tax_profiles_extension:   ${params.tax_profiles_extension}
+    - min_vcov:                 ${params.min_vcov}
+    - filter_enabled:           ${params.filter_enabled}
+    - clade_min_samples:        ${params.clade_min_samples}
+    - marker_trunc_len:         ${params.marker_trunc_len}
+    - global_pos_min_n_vcov:    ${params.global_pos_min_n_vcov}
+    - sample_pos_min_n_vcov:    ${params.sample_pos_min_n_vcov}
+    - sample_var_min_f_vcov:    ${params.sample_var_min_f_vcov}
+    - samples_min_n_hcov:       ${params.samples_min_n_hcov}
+    - aln_pair_min_overlap:     ${params.aln_pair_min_overlap}
+    - aln_pair_min_similarity:  ${params.aln_pair_min_similarity}
+    """
+
     if (!params.inputs_sam) {error "Must specify --${inputs_sam}"}
     if (!params.inputs_mpl) {error "Must specify --${inputs_mpl}"}
     if (!params.db) {error "Must specify --${db}"}
@@ -135,11 +158,16 @@ workflow {
 
     samestr_merge(samestr_convert.out, db)
 
-    samestr_filter(samestr_merge.out, db)
+    if (params.filter_enabled) {
+        samestr_filter(samestr_merge.out, db)
+        ch = samestr_filter.out
+    } else {
+        ch = samestr_merge.out
+    }
 
-    samestr_stats(samestr_filter.out, db)
+    samestr_stats(ch, db)
 
-    samestr_compare(samestr_filter.out, db)
+    samestr_compare(ch, db)
 
     samestr_summarize(samestr_compare.out, inputs_mpl, db)
 }
