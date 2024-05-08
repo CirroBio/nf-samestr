@@ -117,15 +117,17 @@ workflow {
         .fromPath(
             "${params.inputs_sam}".split(',').toList()
         )
+        .ifEmpty {error "No files found in --${inputs_sam}"}
         .toSortedList()
     
     inputs_mpl = Channel
         .fromPath(
             "${params.inputs_mpl}".split(',').toList()
         )
+        .ifEmpty {error "No files found in --${inputs_mpl}"}
         .toSortedList()
 
-    db = file("${params.db}", type: 'dir')
+    db = file("${params.db}", type: 'dir', checkIfExists: true)
 
     mpl_sanitize(inputs_mpl)
 
