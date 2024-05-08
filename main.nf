@@ -169,5 +169,5 @@ workflow {
 
     samestr_compare(ch, db)
 
-    samestr_summarize(samestr_compare.out, inputs_mpl, db)
+    samestr_summarize(samestr_compare.out, mpl_sanitize.out, db)
 }
