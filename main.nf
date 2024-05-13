@@ -138,14 +138,14 @@ workflow {
 
     inputs_sam = Channel
         .fromPath(
-            "${params.inputs_sam}".split(',').toList()
+            "${params.inputs_sam}**.sam.bz2"
         )
         .ifEmpty {error "No files found in --${inputs_sam}"}
         .toSortedList()
-    
+
     inputs_mpl = Channel
         .fromPath(
-            "${params.inputs_mpl}".split(',').toList()
+            "${params.inputs_mpl}**${tax_profiles_extension}"
         )
         .ifEmpty {error "No files found in --${inputs_mpl}"}
         .toSortedList()
