@@ -138,16 +138,16 @@ workflow {
 
     inputs_sam = Channel
         .fromPath(
-            "${params.inputs_sam}**.sam.bz2"
+            "${params.inputs_sam}/**.sam.bz2"
         )
-        .ifEmpty {error "No files found in --${inputs_sam}"}
+        .ifEmpty {error "No files found in --${inputs_sam}/**.sam.bz2"}
         .toSortedList()
 
     inputs_mpl = Channel
         .fromPath(
-            "${params.inputs_mpl}**${params.tax_profiles_extension}"
+            "${params.inputs_mpl}/**${params.tax_profiles_extension}"
         )
-        .ifEmpty {error "No files found in --${inputs_mpl}"}
+        .ifEmpty {error "No files found in --${inputs_mpl}/**${params.tax_profiles_extension}"}
         .toSortedList()
 
     db = file("${params.db}", type: 'dir', checkIfExists: true)
