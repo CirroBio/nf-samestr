@@ -21,6 +21,7 @@ def sanitize(input_file, output_file):
 
     for option in [
         ['#clade', 'NCBI_tax_id', 'relative_abundance'],
+        ['#clade_name', 'NCBI_tax_id', 'relative_abundance'],
         ['#clade_name', 'clade_taxid', 'relative_abundance']
     ]:
         if all([cname in header for cname in option]):
