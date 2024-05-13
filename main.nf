@@ -145,7 +145,7 @@ workflow {
 
     inputs_mpl = Channel
         .fromPath(
-            "${params.inputs_mpl}**${tax_profiles_extension}"
+            "${params.inputs_mpl}**${params.tax_profiles_extension}"
         )
         .ifEmpty {error "No files found in --${inputs_mpl}"}
         .toSortedList()
